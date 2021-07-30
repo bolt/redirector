@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AcmeCorp\ReferenceExtension;
+namespace BoltRedirector;
 
 use Bolt\Extension\BaseExtension;
 
@@ -13,7 +13,7 @@ class Extension extends BaseExtension
      */
     public function getName(): string
     {
-        return 'AcmeCorp ReferenceExtension';
+        return 'Bolt Redirector Extension';
     }
 
     /**
@@ -25,11 +25,6 @@ class Extension extends BaseExtension
      */
     public function initialize($cli = false): void
     {
-        $this->addWidget(new ReferenceWidget());
-
-        $this->addTwigNamespace('reference-extension');
-
-        $this->addListener('kernel.response', [new EventListener(), 'handleEvent']);
     }
 
     /**
