@@ -14,8 +14,13 @@ class Redirector
 
     public function findFor(array $locations): ?string
     {
-        $redirects = array_intersect_key($locations, $this->config->getRedirects());
+        $redirects = $this->config->getRedirects();
+        $redirectKey = current(array_intersect($locations, array_keys($redirects)));
 
-        return current($redirects) ?? null;
+        if ($redirectKey) {
+            return $this->config->getRedirects()[$redirectKey];
+        }
+
+        return null;
     }
 }

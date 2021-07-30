@@ -7,12 +7,20 @@ namespace BoltRedirector;
 use Bolt\Widget\Injector\RequestZone;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class RedirectSubscriber implements EventSubscriberInterface
 {
-    public function onKernelRequest(RequestEvent $event): void
+    /** @var Redirector */
+    private $redirector;
+
+    public function __construct(Redirector $redirector)
+    {
+        $this->redirector = $redirector;
+    }
+
+    public function onKernelResponse(ResponseEvent $event): void
     {
         $request = $event->getRequest();
 
@@ -25,6 +33,7 @@ class RedirectSubscriber implements EventSubscriberInterface
             $request->getPathInfo()
         ];
 
+
         $redirect = $this->redirector->findFor($locations);
 
         if ($redirect) {
@@ -34,8 +43,10 @@ class RedirectSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
+        // todo: If we can get the config from Bolt in the request,
+        // let's listen to that instead, because it's faster.
         return [
-            KernelEvents::REQUEST => [['onKernelRequest', 20]]
+            KernelEvents::RESPONSE => [['onKernelResponse', 0]]
         ];
     }
 }
