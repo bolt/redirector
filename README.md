@@ -1,13 +1,13 @@
-# Acme ReferenceExtension
+# Bolt Redirector
 
-Author: YourNameHere
+Author: Ivo Valchev
 
-This Bolt extension can be used as a starting point to base your own extensions on.
+This Bolt extension adds redirects from clean YAML format.
 
 Installation:
 
 ```bash
-composer require acmecorp/reference-extension
+composer require bolt/redirector
 ```
 
 
