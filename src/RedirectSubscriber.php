@@ -24,7 +24,7 @@ class RedirectSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        if (! RequestZone::isForFrontend($request)) {
+        if (RequestZone::isForBackend($request) || RequestZone::isForAsync($request)) {
             return;
         }
 

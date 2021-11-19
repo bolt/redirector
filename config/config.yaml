@@ -1,6 +1,4 @@
-# Reference extension configuration file
-
-foo: bar
+# Redirector extension configuration file
 
 #redirects:
 #  from: to
