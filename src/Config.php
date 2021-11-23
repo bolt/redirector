@@ -35,7 +35,14 @@ class Config
 
         $extension = $this->getExtension();
 
-        $this->config = array_replace_recursive($this->getDefault(), $extension->getConfig()->toArray());
+        $tempConfig = ['redirects' => []];
+
+        // Iterate over array, ensure we don't have trailing slashes (in keys and values alike)
+        foreach($extension->getConfig()->toArray()['redirects'] as $from => $to) {
+            $tempConfig['redirects'][rtrim($from, '/')] = rtrim($to, '/');
+        }
+
+        $this->config = array_replace_recursive($this->getDefault(), $tempConfig);
 
         return $this->config;
     }

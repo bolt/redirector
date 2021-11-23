@@ -29,8 +29,8 @@ class RedirectSubscriber implements EventSubscriberInterface
         }
 
         $locations = [
-            $request->getUri(),
-            $request->getPathInfo()
+            rtrim($request->getUri(), '/'),
+            rtrim($request->getPathInfo(), '/')
         ];
 
 
