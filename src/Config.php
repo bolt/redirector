@@ -36,9 +36,10 @@ class Config
         $extension = $this->getExtension();
 
         $tempConfig = ['redirects' => []];
+        $redirects = $extension ? $extension->getConfig()->toArray()['redirects'] : [];
 
         // Iterate over array, ensure we don't have trailing slashes (in keys and values alike)
-        foreach($extension->getConfig()->toArray()['redirects'] as $from => $to) {
+        foreach($redirects as $from => $to) {
             $tempConfig['redirects'][rtrim($from, '/')] = rtrim($to, '/');
         }
 
