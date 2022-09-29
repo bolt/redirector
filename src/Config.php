@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BoltRedirector;
 
 use Bolt\Extension\ExtensionRegistry;
+use Symfony\Component\HttpFoundation\Response;
 
 class Config
 {
@@ -27,6 +28,11 @@ class Config
         return $this->getConfig()['redirects'] ?? [];
     }
 
+    public function getStatusCode(): int
+    {
+        return $this->getConfig()['status_code'] ?? Response::HTTP_FOUND;
+    }
+
     public function getConfig(): array
     {
         if ($this->config) {
@@ -35,8 +41,17 @@ class Config
 
         $extension = $this->getExtension();
 
-        $tempConfig = ['redirects' => []];
-        $redirects = $extension ? $extension->getConfig()->toArray()['redirects'] : [];
+        if (!$extension) {
+            return [];
+        }
+
+        $config = $extension->getConfig()->toArray();
+        $redirects = isset($config['redirects']) ? $config['redirects'] : [];
+        $statusCode = isset($config['status_code']) ? $config['status_code'] : Response::HTTP_FOUND;
+        $tempConfig = [
+            'redirects' => [],
+            'status_code' => $statusCode,
+        ];
 
         // Iterate over array, ensure we don't have trailing slashes (in keys and values alike)
         foreach($redirects as $from => $to) {

@@ -23,4 +23,9 @@ class Redirector
 
         return null;
     }
+
+    public function getStatusCode(): int
+    {
+        return $this->config->getStatusCode();
+    }
 }
