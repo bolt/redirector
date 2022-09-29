@@ -37,7 +37,7 @@ class RedirectSubscriber implements EventSubscriberInterface
         $redirect = $this->redirector->findFor($locations);
 
         if ($redirect) {
-            $event->setResponse(new RedirectResponse($redirect));
+            $event->setResponse(new RedirectResponse($redirect, $this->redirector->getStatusCode()));
         }
     }
 

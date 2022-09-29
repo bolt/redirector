@@ -1,5 +1,8 @@
 # Redirector extension configuration file
 
+# The default status code is 302
+#status_code: 301
+
 #redirects:
 #  from: to
 #
