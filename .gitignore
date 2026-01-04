@@ -8,5 +8,4 @@ Vagrantfile
 appveyor.yml
 
 vendor/
-composer.lock
 var/
