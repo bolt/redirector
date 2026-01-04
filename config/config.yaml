@@ -8,11 +8,11 @@
 
 #redirects:
   # You can use an absolute path:
-  #/page/about: /page/about-us
+  /page/about: /page/about-us
 
   # You can also match a full URI (quote it because of ":" in "https://"):
-  #"https://example.org/page/mission": "/page/our-mission"
+  "https://example.org/page/mission": "/page/our-mission"
 
   # Trailing slashes are normalized, so these are treated the same:
-  #/blog: /news
-  #/blog/: /news/
+  /blog: /news
+  /blog/: /news/
