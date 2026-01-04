@@ -5,35 +5,44 @@ declare(strict_types=1);
 namespace BoltRedirector;
 
 use Bolt\Extension\ExtensionRegistry;
+use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
 class Config
 {
-    /** @var */
-    private $config;
+    /** @var Collection<string, int|array<string, string>>|null */
+    private ?Collection $config = null;
 
-    /** @var ExtensionRegistry */
-    private $registry;
+    private ?Extension $extension = null;
 
-    /** @var Extension|null */
-    private $extension;
-
-    public function __construct(ExtensionRegistry $registry)
-    {
-        $this->registry = $registry;
+    public function __construct(
+        private readonly ExtensionRegistry $registry
+    ) {
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getRedirects(): array
     {
-        return $this->getConfig()['redirects'] ?? [];
+        /** @var array<string, string> $redirects */
+        $redirects = $this->getConfig()->get('redirects', []);
+
+        return $redirects;
     }
 
     public function getStatusCode(): int
     {
-        return $this->getConfig()['status_code'] ?? Response::HTTP_FOUND;
+        /** @var int $status */
+        $status = $this->getConfig()->get('status_code', Response::HTTP_FOUND);
+
+        return $status;
     }
 
-    public function getConfig(): array
+    /**
+     * @return Collection<string, int|array<string, string>>
+     */
+    public function getConfig(): Collection
     {
         if ($this->config) {
             return $this->config;
@@ -41,37 +50,50 @@ class Config
 
         $extension = $this->getExtension();
 
-        if (!$extension) {
-            return [];
+        if (! $extension) {
+            return collect();
         }
 
         $config = $extension->getConfig()->toArray();
-        $redirects = isset($config['redirects']) ? $config['redirects'] : [];
-        $statusCode = isset($config['status_code']) ? $config['status_code'] : Response::HTTP_FOUND;
+        $redirects = $config['redirects'] ?? [];
+        $statusCode = $config['status_code'] ?? Response::HTTP_FOUND;
+
         $tempConfig = [
             'redirects' => [],
             'status_code' => $statusCode,
         ];
 
-        // Iterate over array, ensure we don't have trailing slashes (in keys and values alike)
-        foreach($redirects as $from => $to) {
-            $tempConfig['redirects'][rtrim($from, '/')] = rtrim($to, '/');
+        foreach ($redirects as $from => $to) {
+            $tempConfig['redirects'][rtrim((string) $from, '/')] = rtrim((string) $to, '/');
         }
 
-        $this->config = array_replace_recursive($this->getDefault(), $tempConfig);
+        $this->config = collect(
+            array_replace_recursive($this->getDefault(), $tempConfig)
+        );
 
         return $this->config;
     }
 
-    private function getExtension()
+    private function getExtension(): ?Extension
     {
-        if (! $this->extension) {
-            $this->extension = $this->registry->getExtension(Extension::class);
+        if ($this->extension) {
+            return $this->extension;
         }
+
+        $ext = $this->registry->getExtension(Extension::class);
+
+        if (! ($ext instanceof Extension)) {
+            return null;
+        }
+
+        $this->extension = $ext;
 
         return $this->extension;
     }
 
+    /**
+     * @return array<string, int|array<string, string>>
+     */
     private function getDefault(): array
     {
         return [];
