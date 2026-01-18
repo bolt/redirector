@@ -83,13 +83,7 @@ class Config
 
         $ext = $this->registry->getExtension(Extension::class);
 
-        if (! ($ext instanceof Extension)) {
-            return null;
-        }
-
-        $this->extension = $ext;
-
-        return $this->extension;
+        return $this->extension = $ext instance of Extension ? $ext : null;
     }
 
     /**
