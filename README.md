@@ -11,15 +11,6 @@ Bolt Redirector is a Bolt CMS extension that performs simple URL redirects defin
 - Configurable HTTP status code (default **302** / “Found”).
 - Avoids redirecting Bolt backend and async/admin requests.
 
-## Compatibility
-
-This extension supports different Bolt CMS versions depending on the major release:
-
-- **Bolt CMS 6** → Bolt Redirector extension **v2.x**
-- **Bolt CMS 5** → Bolt Redirector extension **v1.x**
-
-This README documents usage for **Bolt CMS 6**.
-
 ## Installation:
 
 ```bash
