@@ -1,18 +1,13 @@
 # Redirector extension configuration file
 
-# Optional: status code for redirects
-# Common values:
-#  - 301 (permanent)
-#  - 302 (temporary, default)
+# The default status code is 302 (=temporary)
 #status_code: 301
 
 #redirects:
-  # You can use an absolute path:
-  /page/about: /page/about-us
-
-  # You can also match a full URI (quote it because of ":" in "https://"):
-  "https://example.org/page/mission": "/page/our-mission"
-
-  # Trailing slashes are normalized, so these are treated the same:
-  /blog: /news
-  /blog/: /news/
+#  from: to
+#
+# from can be the full URI or the absolute path,
+# e.g. https://example.org/page/about or /page/about
+#
+# "https://example.org/page/about": "/page/about-us"
+# "/page/mission": "/page/our-mission"
