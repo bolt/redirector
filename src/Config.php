@@ -63,6 +63,7 @@ class Config
             'status_code' => $statusCode,
         ];
 
+        // Iterate over array, ensure we don't have trailing slashes (in keys and values alike)
         foreach ($redirects as $from => $to) {
             $tempConfig['redirects'][rtrim((string) $from, '/')] = rtrim((string) $to, '/');
         }
