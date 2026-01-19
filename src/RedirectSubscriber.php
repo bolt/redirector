@@ -26,8 +26,8 @@ class RedirectSubscriber implements EventSubscriberInterface
         }
 
         $locations = [
-            rtrim($request->getUri(), '/'),
-            rtrim($request->getPathInfo(), '/'),
+            mb_rtrim($request->getUri(), '/'),
+            mb_rtrim($request->getPathInfo(), '/'),
         ];
 
         $redirect = $this->redirector->findFor($locations);
