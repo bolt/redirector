@@ -1,24 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BoltRedirector;
 
 class Redirector
 {
-    /** @var Config */
-    private $config;
-
-    public function __construct(Config $config)
-    {
-        $this->config = $config;
+    public function __construct(
+        private readonly Config $config
+    ) {
     }
 
+    /**
+     * @param string[] $locations
+     */
     public function findFor(array $locations): ?string
     {
         $redirects = $this->config->getRedirects();
         $redirectKey = current(array_intersect($locations, array_keys($redirects)));
 
         if ($redirectKey) {
-            return $this->config->getRedirects()[$redirectKey];
+            return $redirects[$redirectKey];
         }
 
         return null;

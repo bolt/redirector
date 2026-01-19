@@ -1,6 +1,6 @@
 # Redirector extension configuration file
 
-# The default status code is 302
+# The default status code is 302 (=temporary)
 #status_code: 301
 
 #redirects:
@@ -9,5 +9,5 @@
 # from can be the full URI or the absolute path,
 # e.g. https://example.org/page/about or /page/about
 #
-# "https://example.org/page/about: "/page/about-us"
+# "https://example.org/page/about": "/page/about-us"
 # "/page/mission": "/page/our-mission"

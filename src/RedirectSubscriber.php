@@ -12,12 +12,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class RedirectSubscriber implements EventSubscriberInterface
 {
-    /** @var Redirector */
-    private $redirector;
-
-    public function __construct(Redirector $redirector)
-    {
-        $this->redirector = $redirector;
+    public function __construct(
+        private readonly Redirector $redirector
+    ) {
     }
 
     public function onKernelResponse(ResponseEvent $event): void
@@ -29,10 +26,9 @@ class RedirectSubscriber implements EventSubscriberInterface
         }
 
         $locations = [
-            rtrim($request->getUri(), '/'),
-            rtrim($request->getPathInfo(), '/')
+            mb_rtrim($request->getUri(), '/'),
+            mb_rtrim($request->getPathInfo(), '/'),
         ];
-
 
         $redirect = $this->redirector->findFor($locations);
 
@@ -41,12 +37,12 @@ class RedirectSubscriber implements EventSubscriberInterface
         }
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         // todo: If we can get the config from Bolt in the request,
         // let's listen to that instead, because it's faster.
         return [
-            KernelEvents::RESPONSE => [['onKernelResponse', 0]]
+            KernelEvents::RESPONSE => [['onKernelResponse', 0]],
         ];
     }
 }

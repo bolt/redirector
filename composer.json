@@ -10,12 +10,16 @@
         }
     ],
     "require": {
-        "php": ">=7.2.9",
-        "twig/twig": "^2.12 | ^3.0"
+        "php": ">=8.2",
+        "twig/twig": "^3.21"
     },
     "require-dev": {
-        "bolt/core": "^4.1",
-        "symplify/easy-coding-standard": "^8.3"
+        "bolt/core": "^6.0",
+        "phpstan/extension-installer": "1.4.3",
+        "phpstan/phpstan": "2.1.31",
+        "phpstan/phpstan-deprecation-rules": "2.0.3",
+        "rector/rector": "2.2.7",
+        "symplify/easy-coding-standard": "^13"
     },
     "autoload": {
         "psr-4": {
@@ -26,5 +30,13 @@
     "prefer-stable": true,
     "extra": {
         "entrypoint": "BoltRedirector\\Extension"
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true,
+            "symfony/flex": true,
+            "drupol/composer-packages": true,
+            "phpstan/extension-installer": true
+        }
     }
 }
